@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"net"
 )
 
@@ -45,7 +46,14 @@ func sendResponse(req []byte, conn net.Conn) error {
 		return fmt.Errorf("malformed request")
 	}
 
-	conn.Write([]byte("{\"method\":\"isPrime\",\"prime\":false}\n"))
+	var unmarshalled Req
+	json.Unmarshal(req, &unmarshalled)
+
+	if checkPrimeNumber(*unmarshalled.Number) {
+		conn.Write([]byte("{\"method\":\"isPrime\",\"prime\":true}\n"))
+	} else {
+		conn.Write([]byte("{\"method\":\"isPrime\",\"prime\":false}\n"))
+	}
 	return nil
 }
 
@@ -75,4 +83,23 @@ func ValidateJson(req []byte) error {
 	}
 
 	return nil
+}
+
+func checkPrimeNumber(num int) bool {
+	if num < 2 {
+		return false
+	}
+
+	if num == 2 {
+		return true
+	}
+
+	sq_root := int(math.Sqrt(float64(num)))
+	for i := 2; i <= sq_root; i++ {
+		if num%i == 0 {
+			return false
+		}
+	}
+
+	return true
 }
