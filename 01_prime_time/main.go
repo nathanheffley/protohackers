@@ -59,12 +59,10 @@ func sendResponse(req []byte, conn net.Conn) error {
 
 type Req struct {
 	Method *string
-	Number *int
+	Number *float64
 }
 
 func ValidateJson(req []byte) error {
-	fmt.Printf("%s\n", req)
-
 	var unmarshalled Req
 	if err := json.Unmarshal(req, &unmarshalled); err != nil {
 		return fmt.Errorf("invalid JSON")
@@ -85,7 +83,13 @@ func ValidateJson(req []byte) error {
 	return nil
 }
 
-func checkPrimeNumber(num int) bool {
+func checkPrimeNumber(float float64) bool {
+	if math.Round(float) != float {
+		return false
+	}
+
+	num := int(float)
+
 	if num < 2 {
 		return false
 	}

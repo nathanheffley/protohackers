@@ -10,6 +10,14 @@ func TestValidJson(t *testing.T) {
 	}
 }
 
+func TestValidFloat(t *testing.T) {
+	json := []byte("{\"method\":\"isPrime\",\"number\":123.456}")
+	err := ValidateJson(json)
+	if err != nil {
+		t.Fatalf(`ValidateJson(%s) should not return an error, %s`, json, err)
+	}
+}
+
 func TestValidExtraJson(t *testing.T) {
 	json := []byte("{\"method\":\"isPrime\",\"number\":123,\"extra\":\"who cares?\"}")
 	err := ValidateJson(json)
