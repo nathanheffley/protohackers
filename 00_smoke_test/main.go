@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net"
 )
 
@@ -18,12 +17,19 @@ func main() {
 func echo(conn net.Conn) {
 	buf := make([]byte, 1024)
 
-	bufLen, _ := conn.Read(buf)
+	for {
+		bufLen, err := conn.Read(buf)
+		if err != nil {
+			if bufLen > 0 {
+				conn.Write(buf[0:bufLen])
+			}
+			break
+		}
 
-	fmt.Println(bufLen)
-	fmt.Println(buf)
-
-	conn.Write(buf)
+		if bufLen > 0 {
+			conn.Write(buf[0:bufLen])
+		}
+	}
 
 	conn.Close()
 }
