@@ -21,6 +21,7 @@ func echo(conn net.Conn) {
 	bufLen, _ := conn.Read(buf)
 
 	fmt.Println(bufLen)
+	fmt.Println(buf)
 
 	conn.Write(buf)
 
