@@ -1,9 +1,12 @@
 package main
 
-import "net"
+import (
+	"fmt"
+	"net"
+)
 
 func main() {
-	listener, _ := net.Listen("tcp", "localhost:8080")
+	listener, _ := net.Listen("tcp", "0.0.0.0:8080")
 	defer listener.Close()
 
 	for {
@@ -15,7 +18,9 @@ func main() {
 func echo(conn net.Conn) {
 	buf := make([]byte, 1024)
 
-	conn.Read(buf)
+	bufLen, _ := conn.Read(buf)
+
+	fmt.Println(bufLen)
 
 	conn.Write(buf)
 
