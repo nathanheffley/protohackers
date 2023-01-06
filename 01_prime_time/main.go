@@ -55,6 +55,8 @@ type Req struct {
 }
 
 func ValidateJson(req []byte) error {
+	fmt.Printf("%s\n", req)
+
 	var unmarshalled Req
 	if err := json.Unmarshal(req, &unmarshalled); err != nil {
 		return fmt.Errorf("invalid JSON")
