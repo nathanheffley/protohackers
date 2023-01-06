@@ -45,7 +45,7 @@ func sendResponse(req []byte, conn net.Conn) error {
 		return fmt.Errorf("malformed request")
 	}
 
-	conn.Write([]byte("{\"method\":\"isPrime\",\"prime\":false}"))
+	conn.Write([]byte("{\"method\":\"isPrime\",\"prime\":false}\n"))
 	return nil
 }
 
