@@ -25,11 +25,14 @@ func handle(conn net.Conn) {
 	for {
 		message, err := io.ReadAll(io.LimitReader(conn, 9))
 		if err != nil {
-			fmt.Println(err)
 			continue
 		}
 
 		fmt.Println(message)
+
+		if len(message) < 1 {
+			break
+		}
 
 		if message[0] == 'I' {
 			timestamp := int32(binary.BigEndian.Uint32(message[1:5]))
