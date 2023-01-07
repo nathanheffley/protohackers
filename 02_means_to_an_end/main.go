@@ -34,6 +34,7 @@ func handle(conn net.Conn) {
 			break
 		}
 
+		fmt.Println(buf[1:5])
 		first := int(binary.BigEndian.Uint32(buf[1:5]))
 		second := int(binary.BigEndian.Uint32(buf[5:9]))
 
