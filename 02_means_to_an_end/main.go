@@ -30,6 +30,7 @@ func handle(conn net.Conn) {
 		}
 
 		messageType := buf[0]
+		fmt.Println(messageType)
 
 		firstBuf := make([]byte, 4)
 		conn.Read(buf)
