@@ -25,6 +25,7 @@ func handle(conn net.Conn) {
 	for {
 		message, err := io.ReadAll(io.LimitReader(conn, 9))
 		if err != nil {
+			fmt.Println(err)
 			continue
 		}
 
