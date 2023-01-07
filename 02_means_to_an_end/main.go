@@ -23,6 +23,7 @@ func handle(conn net.Conn) {
 
 	for {
 		_, err := conn.Read(buf)
+		fmt.Println(buf)
 		if err != nil {
 			break
 		}
