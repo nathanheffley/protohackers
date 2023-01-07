@@ -32,17 +32,25 @@ func handle(conn net.Conn) {
 		messageType := buf[0]
 
 		firstBuf := make([]byte, 4)
-		_, err = conn.Read(firstBuf)
-		if err != nil {
-			panic(err)
-		}
+		conn.Read(buf)
+		firstBuf[0] = buf[0]
+		conn.Read(buf)
+		firstBuf[1] = buf[0]
+		conn.Read(buf)
+		firstBuf[2] = buf[0]
+		conn.Read(buf)
+		firstBuf[3] = buf[0]
 		fmt.Println(firstBuf)
 
 		secondBuf := make([]byte, 4)
-		_, err = conn.Read(secondBuf)
-		if err != nil {
-			panic(err)
-		}
+		conn.Read(buf)
+		secondBuf[0] = buf[0]
+		conn.Read(buf)
+		secondBuf[1] = buf[0]
+		conn.Read(buf)
+		secondBuf[2] = buf[0]
+		conn.Read(buf)
+		secondBuf[3] = buf[0]
 		fmt.Println(secondBuf)
 
 		if messageType == 'I' {
