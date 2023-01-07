@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"net"
 )
@@ -18,7 +19,7 @@ func main() {
 func handle(conn net.Conn) {
 	buf := make([]byte, 1)
 
-	// ledger := make(map[int32]int32)
+	ledger := make(map[int32]int32)
 
 	output := make([]byte, 4)
 
@@ -54,7 +55,13 @@ func handle(conn net.Conn) {
 		fmt.Println(secondBuf)
 
 		if messageType == 'I' {
-			// ledger[]
+			timestamp := int32(binary.BigEndian.Uint32(firstBuf))
+			price := int32(binary.BigEndian.Uint32(secondBuf))
+			ledger[timestamp] = price
+		}
+
+		if messageType == 'Q' {
+			fmt.Println(ledger)
 		}
 	}
 
