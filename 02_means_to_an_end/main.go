@@ -83,6 +83,7 @@ func handle(conn net.Conn) {
 			break
 		}
 
+		fmt.Println("Unexpected Code")
 		break
 	}
 
