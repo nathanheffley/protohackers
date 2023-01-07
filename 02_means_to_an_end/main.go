@@ -50,25 +50,23 @@ func handle(conn net.Conn) {
 			ledger[timestamp] = price
 		}
 
-		continue
+		if buf[0] == 'Q' {
+			// count := 0
+			// total := 0
+			// for timestamp, price := range ledger {
+			// 	if timestamp >= first && timestamp <= second {
+			// 		count++
+			// 		total += price
+			// 	}
+			// }
 
-		// if buf[0] == 'Q' {
-		// 	count := 0
-		// 	total := 0
-		// 	for timestamp, price := range ledger {
-		// 		if timestamp >= first && timestamp <= second {
-		// 			count++
-		// 			total += price
-		// 		}
-		// 	}
-
-		// 	if count == 0 {
-		// 		binary.BigEndian.PutUint32(output, 0)
-		// 	} else {
-		// 		binary.BigEndian.PutUint32(output, uint32(total/count))
-		// 	}
-		// 	break
-		// }
+			// if count == 0 {
+			binary.BigEndian.PutUint32(output, 0)
+			// } else {
+			// 	binary.BigEndian.PutUint32(output, uint32(total/count))
+			// }
+			break
+		}
 	}
 
 	conn.Write(output)
