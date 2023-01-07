@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"io"
 	"net"
@@ -31,12 +32,12 @@ func handle(conn net.Conn) {
 
 		fmt.Println(message)
 
-		// if messageType == 'I' {
-		// 	timestamp := int32(binary.BigEndian.Uint32(firstBuf))
-		// 	price := int32(binary.BigEndian.Uint32(secondBuf))
-		// 	ledger[timestamp] = price
-		// 	continue
-		// }
+		if message[0] == 'I' {
+			timestamp := int32(binary.BigEndian.Uint32(message[1:5]))
+			price := int32(binary.BigEndian.Uint32(message[5:]))
+			// ledger[timestamp] = price
+			fmt.Println(timestamp, price)
+		}
 
 		// if messageType == 'Q' {
 		// 	min := int32(binary.BigEndian.Uint32(firstBuf))
