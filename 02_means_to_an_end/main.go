@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+	"time"
 )
 
 func main() {
@@ -17,6 +18,8 @@ func main() {
 }
 
 func handle(conn net.Conn) {
+	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+
 	buf := make([]byte, 9)
 
 	ledger := make(map[int]int)
