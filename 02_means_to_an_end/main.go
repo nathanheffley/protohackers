@@ -64,7 +64,7 @@ func handle(conn net.Conn) {
 			}
 			fmt.Println(output)
 			conn.Write(output)
-			break
+			continue
 		}
 
 		fmt.Println("Unexpected Code")
