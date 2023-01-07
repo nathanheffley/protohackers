@@ -77,11 +77,10 @@ func handle(conn net.Conn) {
 				binary.BigEndian.PutUint32(output, uint32(total/count))
 			}
 			fmt.Println(output)
+			conn.Write(output)
 			break
 		}
 	}
-
-	conn.Write(output)
 
 	conn.Close()
 }
