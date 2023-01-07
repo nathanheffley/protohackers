@@ -18,7 +18,7 @@ func main() {
 func handle(conn net.Conn) {
 	buf := make([]byte, 1)
 
-	ledger := make(map[int32]int32)
+	// ledger := make(map[int32]int32)
 
 	output := make([]byte, 4)
 
