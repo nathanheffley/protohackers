@@ -47,13 +47,13 @@ func handle(conn net.Conn) {
 			min := int32(binary.BigEndian.Uint32(message[1:5]))
 			max := int32(binary.BigEndian.Uint32(message[5:]))
 
-			var count, total int32
+			var count, total int64
 			count = 0
 			total = 0
 			for timestamp, price := range ledger {
 				if timestamp >= min && timestamp <= max {
 					count++
-					total += price
+					total += int64(price)
 				}
 			}
 
