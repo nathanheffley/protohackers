@@ -56,6 +56,7 @@ func handle(conn net.Conn) {
 			timestamp := int32(binary.BigEndian.Uint32(firstBuf))
 			price := int32(binary.BigEndian.Uint32(secondBuf))
 			ledger[timestamp] = price
+			continue
 		}
 
 		if messageType == 'Q' {
@@ -81,7 +82,9 @@ func handle(conn net.Conn) {
 			conn.Write(output)
 			break
 		}
+
+		break
 	}
 
-	// conn.Close()
+	conn.Close()
 }
