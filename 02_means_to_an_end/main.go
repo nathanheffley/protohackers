@@ -18,11 +18,9 @@ func main() {
 }
 
 func handle(conn net.Conn) {
-	// buf := make([]byte, 1)
+	ledger := make(map[int32]int32)
 
-	// ledger := make(map[int32]int32)
-
-	// output := make([]byte, 4)
+	output := make([]byte, 4)
 
 	for {
 		message, err := io.ReadAll(io.LimitReader(conn, 9))
@@ -35,33 +33,35 @@ func handle(conn net.Conn) {
 		if message[0] == 'I' {
 			timestamp := int32(binary.BigEndian.Uint32(message[1:5]))
 			price := int32(binary.BigEndian.Uint32(message[5:]))
-			// ledger[timestamp] = price
+			ledger[timestamp] = price
 			fmt.Println(timestamp, price)
+			continue
+
 		}
 
-		// if messageType == 'Q' {
-		// 	min := int32(binary.BigEndian.Uint32(firstBuf))
-		// 	max := int32(binary.BigEndian.Uint32(secondBuf))
+		if message[0] == 'Q' {
+			min := int32(binary.BigEndian.Uint32(message[1:5]))
+			max := int32(binary.BigEndian.Uint32(message[5:]))
 
-		// 	var count, total int32
-		// 	count = 0
-		// 	total = 0
-		// 	for timestamp, price := range ledger {
-		// 		if timestamp >= min && timestamp <= max {
-		// 			count++
-		// 			total += price
-		// 		}
-		// 	}
+			var count, total int32
+			count = 0
+			total = 0
+			for timestamp, price := range ledger {
+				if timestamp >= min && timestamp <= max {
+					count++
+					total += price
+				}
+			}
 
-		// 	if count == 0 {
-		// 		binary.BigEndian.PutUint32(output, 0)
-		// 	} else {
-		// 		binary.BigEndian.PutUint32(output, uint32(total/count))
-		// 	}
-		// 	fmt.Println(output)
-		// 	conn.Write(output)
-		// 	break
-		// }
+			if count == 0 {
+				binary.BigEndian.PutUint32(output, 0)
+			} else {
+				binary.BigEndian.PutUint32(output, uint32(total/count))
+			}
+			fmt.Println(output)
+			conn.Write(output)
+			break
+		}
 
 		fmt.Println("Unexpected Code")
 		break
