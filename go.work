@@ -1,0 +1,7 @@
+go 1.19
+
+use (
+	./00_smoke_test
+	./01_prime_time
+	./02_means_to_an_end
+)
