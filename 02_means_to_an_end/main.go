@@ -27,6 +27,7 @@ func handle(conn net.Conn) {
 		_, err := conn.Read(buf)
 		fmt.Println(buf)
 		if err != nil {
+			fmt.Println(err)
 			break
 		}
 
