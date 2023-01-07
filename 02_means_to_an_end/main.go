@@ -54,6 +54,7 @@ func handle(conn net.Conn) {
 				binary.BigEndian.PutUint32(output, uint32(total/count))
 			}
 			fmt.Println(output)
+			break
 		}
 	}
 
