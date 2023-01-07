@@ -18,7 +18,7 @@ func main() {
 }
 
 func handle(conn net.Conn) {
-	buf := make([]byte, 9)
+	buf := make([]byte, 1)
 
 	ledger := make(map[int]int)
 
@@ -26,9 +26,12 @@ func handle(conn net.Conn) {
 
 	for {
 		_, err := conn.Read(buf)
+		fmt.Println(buf)
 		if err != nil {
 			break
 		}
+
+		continue
 
 		fmt.Printf("char: %b\n", buf[0])
 
