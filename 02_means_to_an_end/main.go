@@ -27,6 +27,7 @@ func handle(conn net.Conn) {
 		if err != nil {
 			panic(err)
 		}
+		fmt.Println(buf)
 
 		messageType := buf[0]
 
@@ -47,8 +48,6 @@ func handle(conn net.Conn) {
 		if messageType == 'I' {
 			// ledger[]
 		}
-
-		fmt.Println(buf)
 	}
 
 	conn.Write(output)
