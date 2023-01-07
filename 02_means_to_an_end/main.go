@@ -26,7 +26,7 @@ func handle(conn net.Conn) {
 	for {
 		_, err := conn.Read(buf)
 		if err != nil {
-			panic(err)
+			break
 		}
 
 		messageType := buf[0]
