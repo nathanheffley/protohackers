@@ -21,6 +21,8 @@ func handle(conn net.Conn) {
 
 	ledger := make(map[int]int)
 
+	output := make([]byte, 4)
+
 	for {
 		_, err := conn.Read(buf)
 		fmt.Println(buf)
@@ -44,16 +46,17 @@ func handle(conn net.Conn) {
 					total += price
 				}
 			}
-			output := make([]byte, 4)
+
 			if count == 0 {
 				binary.BigEndian.PutUint32(output, 0)
 			} else {
 				binary.BigEndian.PutUint32(output, uint32(total/count))
 			}
 			fmt.Println(output)
-			conn.Write(output)
 		}
 	}
+
+	conn.Write(output)
 
 	conn.Close()
 }
