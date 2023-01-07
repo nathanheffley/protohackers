@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"net"
-	"time"
 )
 
 func main() {
@@ -18,8 +18,6 @@ func main() {
 }
 
 func handle(conn net.Conn) {
-	conn.SetReadDeadline(time.Now().Add(5 * time.Second))
-
 	buf := make([]byte, 9)
 
 	ledger := make(map[int]int)
@@ -28,15 +26,29 @@ func handle(conn net.Conn) {
 
 	for {
 		_, err := conn.Read(buf)
-		fmt.Println(buf)
 		if err != nil {
-			fmt.Println(err)
 			break
 		}
 
-		fmt.Println(buf[1:5])
-		first := int(binary.BigEndian.Uint32(buf[1:5]))
-		second := int(binary.BigEndian.Uint32(buf[5:9]))
+		fmt.Printf("char: %b\n", buf[0])
+
+		reader := bytes.NewBuffer(buf[1:5])
+		firstData := make([]byte, 4)
+		err = binary.Read(reader, binary.BigEndian, &firstData)
+		if err != nil {
+			panic(err)
+		}
+		first := int(binary.BigEndian.Uint32(firstData))
+		fmt.Printf("first: %b\n", firstData)
+
+		reader = bytes.NewBuffer(buf[5:9])
+		secondData := make([]byte, 4)
+		err = binary.Read(reader, binary.BigEndian, &secondData)
+		if err != nil {
+			panic(err)
+		}
+		second := int(binary.BigEndian.Uint32(secondData))
+		fmt.Printf("second: %b\n", secondData)
 
 		if buf[0] == 'I' {
 			ledger[first] = second
@@ -57,7 +69,6 @@ func handle(conn net.Conn) {
 			} else {
 				binary.BigEndian.PutUint32(output, uint32(total/count))
 			}
-			fmt.Println(output)
 			break
 		}
 	}
