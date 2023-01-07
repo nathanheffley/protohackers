@@ -30,7 +30,7 @@ func handle(conn net.Conn) {
 
 		fmt.Println(message)
 
-		if len(message) < 1 {
+		if len(message) < 9 {
 			break
 		}
 
