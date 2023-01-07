@@ -27,7 +27,7 @@ func handle(conn net.Conn) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(buf)
+		fmt.Println("char", buf)
 
 		messageType := buf[0]
 
