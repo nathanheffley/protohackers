@@ -28,7 +28,6 @@ func handle(conn net.Conn) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("char", buf)
 
 		messageType := buf[0]
 
@@ -41,7 +40,6 @@ func handle(conn net.Conn) {
 		firstBuf[2] = buf[0]
 		conn.Read(buf)
 		firstBuf[3] = buf[0]
-		fmt.Println(firstBuf)
 
 		secondBuf := make([]byte, 4)
 		conn.Read(buf)
@@ -52,7 +50,6 @@ func handle(conn net.Conn) {
 		secondBuf[2] = buf[0]
 		conn.Read(buf)
 		secondBuf[3] = buf[0]
-		fmt.Println(secondBuf)
 
 		if messageType == 'I' {
 			timestamp := int32(binary.BigEndian.Uint32(firstBuf))
@@ -61,7 +58,26 @@ func handle(conn net.Conn) {
 		}
 
 		if messageType == 'Q' {
-			fmt.Println(ledger)
+			min := int32(binary.BigEndian.Uint32(firstBuf))
+			max := int32(binary.BigEndian.Uint32(secondBuf))
+
+			var count, total int32
+			count = 0
+			total = 0
+			for timestamp, price := range ledger {
+				if timestamp >= min && timestamp <= max {
+					count++
+					total += price
+				}
+			}
+
+			if count == 0 {
+				binary.BigEndian.PutUint32(output, 0)
+			} else {
+				binary.BigEndian.PutUint32(output, uint32(total/count))
+			}
+			fmt.Println(output)
+			break
 		}
 	}
 
