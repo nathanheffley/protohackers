@@ -27,6 +27,8 @@ func (c *Client) Write(message string) {
 }
 
 func (c *Client) Leave() {
+	fmt.Println("{", c.Name, "is leaving the room}")
+
 	if len(clients) < 2 {
 		clients = []Client{}
 		c.Conn.Close()
@@ -67,8 +69,8 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	name := strings.TrimSpace(string(nameBytes))
-	fmt.Println([]byte(name))
+	name := strings.Trim(string(nameBytes), "\x00")
+	name = strings.TrimSpace(name)
 
 	if len(name) < 1 {
 		conn.Close()
@@ -85,7 +87,6 @@ func handle(conn net.Conn) {
 		clientNames = append(clientNames, c.Name)
 		c.Write("* " + client.Name + " has entered the room\n")
 	}
-	fmt.Println(strings.Join(clientNames, ", "))
 	client.Write(fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", ")))
 
 	clients = append(clients, client)
