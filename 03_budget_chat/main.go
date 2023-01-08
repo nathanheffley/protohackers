@@ -26,6 +26,12 @@ func (c *Client) Write(message string) {
 }
 
 func (c *Client) Leave() {
+	if len(clients) < 2 {
+		clients = []Client{}
+		c.Conn.Close()
+		return
+	}
+
 	newClients := make([]Client, len(clients)-1)
 	for _, client := range clients {
 		if client.Name != c.Name {
