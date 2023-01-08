@@ -68,7 +68,7 @@ func handle(conn net.Conn) {
 	}
 
 	name := strings.Trim(string(nameBytes), "\x00\x10")
-	fmt.Println(name)
+	fmt.Println([]byte(name))
 
 	if len(name) < 1 {
 		conn.Close()
