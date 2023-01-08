@@ -26,7 +26,7 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	fmt.Println(name)
+	fmt.Println(string(name))
 
 	conn.Close()
 }
