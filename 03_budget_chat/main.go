@@ -64,7 +64,7 @@ func handle(conn net.Conn) {
 	nameBytes := make([]byte, 16)
 	_, err := conn.Read(nameBytes)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error reading name:", err)
 		conn.Close()
 		return
 	}
