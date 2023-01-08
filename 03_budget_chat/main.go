@@ -17,7 +17,7 @@ func (c *Client) SendMessage(message string) {
 			continue
 		}
 
-		client.Write(fmt.Sprintf("[%s] %s", c.Name, message))
+		client.Write(fmt.Sprintf("[%s] %s\n", c.Name, message))
 	}
 }
 
@@ -27,7 +27,7 @@ func (c *Client) Write(message string) {
 }
 
 func (c *Client) Leave() {
-	fmt.Println("{", c.Name, "is leaving the room}")
+	fmt.Printf("{%s is leaving the room}\n", c.Name)
 
 	if len(clients) < 2 {
 		clients = []Client{}
@@ -96,12 +96,15 @@ func handle(conn net.Conn) {
 	clients = append(clients, client)
 
 	for {
-		message := make([]byte, 1000)
-		_, err := conn.Read(message)
+		messageBytes := make([]byte, 1000)
+		_, err := conn.Read(messageBytes)
 		if err != nil {
 			client.Leave()
 			break
 		}
+
+		message := strings.Trim(string(messageBytes), "\x00")
+		message = strings.TrimSpace(message)
 
 		client.SendMessage(string(message))
 	}
