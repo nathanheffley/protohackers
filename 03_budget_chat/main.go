@@ -19,8 +19,9 @@ func main() {
 func handle(conn net.Conn) {
 	conn.Write([]byte("Welcome to budgetchat! What shall I call you?"))
 
-	name, err := io.ReadAll(io.LimitReader(conn, 9))
+	name, err := io.ReadAll(io.LimitReader(conn, 16))
 	if err != nil {
+		fmt.Println(err)
 		conn.Close()
 		return
 	}
