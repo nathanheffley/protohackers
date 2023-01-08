@@ -67,7 +67,7 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	name := strings.Trim(string(nameBytes), " \r\n")
+	name := strings.Trim(string(nameBytes), "\n")
 	fmt.Println(name)
 
 	if len(name) < 1 {
