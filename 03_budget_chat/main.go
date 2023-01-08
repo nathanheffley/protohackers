@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"net"
 )
 
@@ -19,7 +18,8 @@ func main() {
 func handle(conn net.Conn) {
 	conn.Write([]byte("Welcome to budgetchat! What shall I call you?"))
 
-	name, err := io.ReadAll(io.LimitReader(conn, 16))
+	name := make([]byte, 16)
+	_, err := conn.Read(name)
 	if err != nil {
 		fmt.Println(err)
 		conn.Close()
