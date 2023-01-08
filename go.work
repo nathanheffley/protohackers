@@ -4,4 +4,5 @@ use (
 	./00_smoke_test
 	./01_prime_time
 	./02_means_to_an_end
+	./03_budget_chat
 )
