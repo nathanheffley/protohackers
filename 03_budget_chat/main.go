@@ -68,6 +68,7 @@ func handle(conn net.Conn) {
 	}
 
 	name := strings.Trim(string(nameBytes), " \r\n")
+	fmt.Println(name)
 
 	if len(name) < 1 {
 		conn.Close()
@@ -84,6 +85,7 @@ func handle(conn net.Conn) {
 		clientNames = append(clientNames, c.Name)
 		c.Write("* " + client.Name + " has entered the room\n")
 	}
+	fmt.Println(strings.Join(clientNames, ", "))
 	client.Write(fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", ")))
 
 	clients = append(clients, client)
