@@ -16,7 +16,7 @@ func main() {
 }
 
 func handle(conn net.Conn) {
-	conn.Write([]byte("Welcome to budgetchat! What shall I call you?"))
+	conn.Write([]byte("Welcome to budgetchat! What shall I call you?\n"))
 
 	name := make([]byte, 16)
 	_, err := conn.Read(name)
