@@ -22,6 +22,7 @@ func (c *Client) SendMessage(message string) {
 }
 
 func (c *Client) Write(message string) {
+	fmt.Print(message)
 	c.Conn.Write([]byte(message))
 }
 
