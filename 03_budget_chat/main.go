@@ -11,8 +11,18 @@ type Client struct {
 	Conn net.Conn
 }
 
+func (c *Client) SendMessage(message string) {
+	for _, client := range clients {
+		if client.Name == c.Name {
+			continue
+		}
+
+		client.Write(fmt.Sprintf("[%s] %s", c.Name, message))
+	}
+}
+
 func (c *Client) Write(message string) {
-	c.Conn.Write([]byte(message + "\n"))
+	c.Conn.Write([]byte(message))
 }
 
 func (c *Client) Leave() {
@@ -21,7 +31,7 @@ func (c *Client) Leave() {
 	for _, client := range clients {
 		if client.Name != c.Name {
 			newClients = append(newClients, client)
-			client.Write(fmt.Sprintf("* %s has left the room", c.Name))
+			client.Write(fmt.Sprintf("* %s has left the room\n", c.Name))
 		}
 	}
 	clients = newClients
@@ -74,13 +84,7 @@ func handle(conn net.Conn) {
 			break
 		}
 
-		for _, c := range clients {
-			if c.Name == client.Name {
-				continue
-			}
-
-			c.Write(fmt.Sprintf("[%s] %s", client.Name, string(message)))
-		}
+		client.SendMessage(string(message))
 	}
 
 	client.Leave()
