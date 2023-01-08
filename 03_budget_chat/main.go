@@ -26,7 +26,6 @@ func (c *Client) Write(message string) {
 }
 
 func (c *Client) Leave() {
-	c.Conn.Close()
 	newClients := make([]Client, len(clients)-1)
 	for _, client := range clients {
 		if client.Name != c.Name {
@@ -35,6 +34,7 @@ func (c *Client) Leave() {
 		}
 	}
 	clients = newClients
+	c.Conn.Close()
 }
 
 var clients = []Client{}
