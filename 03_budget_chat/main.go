@@ -59,13 +59,15 @@ func main() {
 func handle(conn net.Conn) {
 	conn.Write([]byte("Welcome to budgetchat! What shall I call you?\n"))
 
-	name := make([]byte, 16)
-	_, err := conn.Read(name)
+	nameBytes := make([]byte, 16)
+	_, err := conn.Read(nameBytes)
 	if err != nil {
 		fmt.Println(err)
 		conn.Close()
 		return
 	}
+
+	name := strings.Trim(string(nameBytes), " \r\n")
 
 	if len(name) < 1 {
 		conn.Close()
