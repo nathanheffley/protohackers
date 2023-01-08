@@ -101,6 +101,4 @@ func handle(conn net.Conn) {
 
 		client.SendMessage(string(message))
 	}
-
-	client.Leave()
 }
