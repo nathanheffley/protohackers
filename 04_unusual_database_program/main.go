@@ -28,8 +28,8 @@ func main() {
 
 		if strings.Contains(packet, "=") {
 			parts := strings.SplitN(packet, "=", 2)
-			key := strings.TrimSpace(strings.Trim(parts[0], "\x00"))
-			value := strings.TrimSpace(strings.Trim(parts[1], "\x00"))
+			key := strings.Trim(parts[0], "\x00")
+			value := strings.Trim(parts[1], "\x00")
 
 			if key == "version" {
 				fmt.Printf("Attempt to set 'version' to '%s' was ignored\n", value)
@@ -43,7 +43,7 @@ func main() {
 			continue
 		}
 
-		key := strings.TrimSpace(strings.Trim(packet, "\x00"))
+		key := strings.Trim(packet, "\x00")
 		value := db[key]
 		resp := fmt.Sprintf("%s=%s", key, value)
 		listener.WriteTo([]byte(resp), addr)
