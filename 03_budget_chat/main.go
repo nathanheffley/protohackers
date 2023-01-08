@@ -83,7 +83,7 @@ func handle(conn net.Conn) {
 		message := make([]byte, 1000)
 		_, err := conn.Read(message)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("ERROR", err)
 			break
 		}
 
