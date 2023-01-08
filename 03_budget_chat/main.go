@@ -60,6 +60,11 @@ func handle(conn net.Conn) {
 		return
 	}
 
+	if len(name) < 1 {
+		conn.Close()
+		return
+	}
+
 	client := Client{
 		Name: string(name),
 		Conn: conn,
@@ -70,9 +75,7 @@ func handle(conn net.Conn) {
 		clientNames = append(clientNames, c.Name)
 		c.Write("* " + client.Name + " has entered the room\n")
 	}
-	roomContainsMessage := fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", "))
-	client.Write(roomContainsMessage)
-	fmt.Println(roomContainsMessage)
+	client.Write(fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", ")))
 
 	clients = append(clients, client)
 
