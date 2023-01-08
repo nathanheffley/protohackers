@@ -22,7 +22,7 @@ func (c *Client) SendMessage(message string) {
 }
 
 func (c *Client) Write(message string) {
-	fmt.Print(message)
+	fmt.Print("{to ", c.Name, "} ", message)
 	c.Conn.Write([]byte(message))
 }
 
@@ -35,7 +35,7 @@ func (c *Client) Leave() {
 		return
 	}
 
-	newClients := make([]Client, len(clients)-1)
+	newClients := make([]Client, len(clients)-2)
 	for _, client := range clients {
 		if client.Name != c.Name {
 			newClients = append(newClients, client)
@@ -82,12 +82,16 @@ func handle(conn net.Conn) {
 		Conn: conn,
 	}
 
-	clientNames := make([]string, len(clients))
-	for _, c := range clients {
-		clientNames = append(clientNames, c.Name)
-		c.Write("* " + client.Name + " has entered the room\n")
+	if len(clients) > 0 {
+		clientNames := make([]string, len(clients)-1)
+		for _, c := range clients {
+			clientNames = append(clientNames, c.Name)
+			c.Write("* " + client.Name + " has entered the room\n")
+		}
+		client.Write(fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", ")))
+	} else {
+		client.Write("* The room is empty\n")
 	}
-	client.Write(fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", ")))
 
 	clients = append(clients, client)
 
