@@ -67,8 +67,7 @@ func handle(conn net.Conn) {
 		return
 	}
 
-	name := strings.Trim(string(nameBytes), "\x00")
-	name = strings.TrimSpace(name)
+	name := strings.TrimSpace(string(nameBytes))
 	fmt.Println([]byte(name))
 
 	if len(name) < 1 {
