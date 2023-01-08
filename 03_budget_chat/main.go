@@ -68,7 +68,7 @@ func handle(conn net.Conn) {
 	clientNames := make([]string, len(clients))
 	for _, c := range clients {
 		clientNames = append(clientNames, c.Name)
-		c.Write("* " + client.Name + " has entered the room")
+		c.Write("* " + client.Name + " has entered the room\n")
 	}
 	roomContainsMessage := fmt.Sprintf("* The room contains: %s\n", strings.Join(clientNames, ", "))
 	client.Write(roomContainsMessage)
