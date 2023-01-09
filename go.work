@@ -5,4 +5,6 @@ use (
 	./01_prime_time
 	./02_means_to_an_end
 	./03_budget_chat
+	./04_unusual_database_program
+	./09_job_centre
 )
