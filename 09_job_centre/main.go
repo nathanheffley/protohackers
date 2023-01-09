@@ -112,6 +112,7 @@ func handle(conn net.Conn) {
 
 		reqBytes = bytes.Trim(reqBytes, "\x00")
 		reqBytes = bytes.TrimSpace(reqBytes)
+		fmt.Println(string(reqBytes))
 		var req RequestType
 		err = json.Unmarshal(reqBytes, &req)
 		if err != nil {
